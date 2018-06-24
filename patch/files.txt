@@ -1,0 +1,21 @@
+autoparts/tdmcore/PcAlternativeArticles.php
+autoparts/tdmcore/PcPartsListProcessor.php
+autoparts/tdmcore/PcImapMailbox.php
+autoparts/tdmcore/PcMailImporter.php
+autoparts/tdmcore/PcMailImporterCrontab.php
+autoparts/tdmcore/PcHelper.php
+autoparts/tdmcore/PcCrossGenerator.php
+
+autoparts/admin/import/run.php
+autoparts/tdmcore/classes.php
+autoparts/tdmcore/defines.php
+autoparts/tdmcore/components/listparts.php
+autoparts/tdmcore/components/searchparts/component.php
+autoparts/tocms/OpenCart.php
+cli/pc_import.php
+
+! autoparts/tdmcore/functions.php
+
+autoparts/templates/partslist/ss/view_list.php
+autoparts/templates/partslist/default/view_list.php
+autoparts/templates/partslist/ss/style.css
