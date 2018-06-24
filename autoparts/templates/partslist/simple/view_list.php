@@ -1,23 +1,20 @@
-﻿<?if(!defined("TDM_PROLOG_INCLUDED") || TDM_PROLOG_INCLUDED!==true) die(); ?>
-
+﻿<?if(!defined("TDM_PROLOG_INCLUDED") || TDM_PROLOG_INCLUDED!==true)die();
+?>
 <table class="tdlist">
-	<tr class="head">
-		<td></td>
-		<td></td>
-		<td><?=Lng('Name',1,0);?></td>
-		<td></td>
-		<?php if (TDM_ISADMIN || $_SESSION['TDM_CMS_USER_GROUP'] === 7): ?>
-			<td>Цена магазин</td>
-		<?php endif; ?>
+	<tr class="head"><td><?=Lng('Brand',1,0);?></td><?/*<td><?=Lng('Number',1,0);?></td>*/?><td></td><td><?=Lng('Name',1,0);?></td><td></td><td></td>
 		<td style="padding:0px; text-align:right;">
 			<table class="listprice"><tr class="thead">
 				<td class="avail"><?=Lng('Avail.',1,1)?></td>
+				<td class="day ttip" title="<?=Lng('Dtime_delivery',1,0)?>"><?=Lng('Dtime',1,1)?></td>
 				<td class="cost ttip" title="<?=TDM_CUR?>"><?=Lng('Price',1,1)?></td>
 				<td class="tocart"></td></tr>
 			</table>
 		</td>
-	</tr>
+		
+		
 
+		
+	</tr>
 	<?
 	foreach($arResult['PARTS'] as $NumKey=>$arPart){
 		if($arPart['PKEY']==''){continue;} //ERROR key
@@ -42,18 +39,24 @@
 		?>
 		<tr class="cols">
 		<td class="tdbrand">
-			<a class = "<?= $BrandClass ?>"><?= !empty($arPart['PC_MANUFACTURER']) ? $arPart['PC_MANUFACTURER'] : $arPart['BRAND'] ?></a>
-			<?= $BrLink ?><br>
-			<div class="ttip" <?if(TDM_ISADMIN){?>ttip" title="BKEY: <?=$arPart['BKEY']?><br>AKEY: <?=$arPart['AKEY']?><br>AID:<?=$arPart['AID']?><?}?>"><?= !empty($arPart['PC_SKU']) ? $arPart['PC_SKU'] : $arPart['ARTICLE'] ?></div>
-			<?php if($arPart['KIND'] > 0): ?>
-				<span style="font-size:11px;"><?= TDMPrintArtKinde($arPart['KIND']) ?></span>
-			<?php endif; ?>
+
+			<a href="javascript:void(0)" class="<?=$BrandClass?>" title="<?echo Lng('Information_about_brand',0,0);?>"><?=$arPart['BRAND']?></a>
+			<?=$BrLink?><br>
+			<div class="ttip" <?if(TDM_ISADMIN){?>ttip" title="BKEY: <?=$arPart['BKEY']?><br>AKEY: <?=$arPart['AKEY']?><br>ID:<?=$arPart['AID']?><?}?>"><?=$arPart['ARTICLE']?></div>
+			<?if($arPart['KIND']>0){?><span style="font-size:11px;"><?=TDMPrintArtKinde($arPart['KIND']);?></span><?}?>
+
+
+
 		</td>
+		<?/*
+		<td class="article <?if(TDM_ISADMIN){?>ttip" title="BKEY: <?=$arPart['BKEY']?><br>AKEY: <?=$arPart['AKEY']?><br>ID:<?=$arPart['AID']?><?}?>">
+			<?=$arPart['ARTICLE']?>
+		</td>*/?>
 		<td>
 
 			<div class="tditem" id="item<?=$arPart['PKEY']?>">
 			<?// Preview images: ?>
-			<a href="<?=$Zoom?>" class="image <?=$ZClass?>" rel="img<?=$arPart['PKEY']?>" <?=$Target?>>
+			<a href="<?=$Zoom?>" class="image <?=$ZClass?>" rel="img<?=$arPart['PKEY']?>" <?=$Target?> title="<?=$arPart['BRAND']?> <?=$arPart['ARTICLE']?>">
 				<?if($arResult['ART_LOGOS'][$arPart['AID']]!=''){?>
 					<div style="background-image:url('<?=$arResult['ART_LOGOS'][$arPart['AID']]?>');" class="logobox"></div>
 				<?}?>
@@ -66,8 +69,10 @@
 			</a>
 				<?if($AddF>0){?><div class="addphoto" title="<?=Lng('Photo_count',1,0);?>">x<?=($AddF+1)?></div><?}?>
 			<?if(is_array($arPart["IMG_ADDITIONAL"])){
-				foreach($arPart["IMG_ADDITIONAL"] as $AddImgSrc){ $AddF++;?><a href="<?=$AddImgSrc?>" class="cbx_imgs" rel="img<?=$arPart['PKEY']?>"></a><?}
+				foreach($arPart["IMG_ADDITIONAL"] as $AddImgSrc){ $AddF++;?><a href="<?=$AddImgSrc?>" class="cbx_imgs" rel="img<?=$arPart['PKEY']?>" title="<?=$arPart['BRAND']?> <?=$arPart['ARTICLE']?>"></a><?}
 			}?>
+			
+
 
 		</td>
 		<td width="40%">
@@ -93,20 +98,16 @@
 				<a href="javascript:void(0)" OnClick="AppWin('<?=TDM_ROOT_DIR?>',<?=$arPart["AID"]?>,980)" class="carsapp" target="_blank" title="<?=Lng('Applicability_to_model_cars',1,0)?>"></a></table>
 			<?}?>
 		</td>
-
-		<?php if (TDM_ISADMIN || $_SESSION['TDM_CMS_USER_GROUP'] === 7): ?>
-			<td class="options">
-				<?php if($arPart["PRICES_COUNT"] > 0): ?>
-					<table class="optionstab">
-					<?foreach($arResult['PRICES'][$arPart['PKEY']] as $arPrice){ $OpCnt++;
-						if($OpCnt>$arResult['LIST_PRICES_LIMIT']){$OpClass='op'.$arPart['PKEY']; $OpStyle='style="display:none;"'; }else{$OpClass=''; $OpStyle='';}?>
-						<tr class="<?=$OpClass?>" <?=$OpStyle?> ><td><?=$arPrice['OPTIONS']['VIEW_INTAB']?></td></tr>
-					<?}?>
-					</table>
-				<?php endif; ?>
-			</td>
-		<?php endif; ?>
-
+		<td class="options">
+			<?if($arPart["PRICES_COUNT"]>0){?>
+				<table class="optionstab">
+				<?foreach($arResult['PRICES'][$arPart['PKEY']] as $arPrice){ $OpCnt++;
+					if($OpCnt>$arResult['LIST_PRICES_LIMIT']){$OpClass='op'.$arPart['PKEY']; $OpStyle='style="display:none;"'; }else{$OpClass=''; $OpStyle='';}?>
+					<tr class="<?=$OpClass?>" <?=$OpStyle?> ><td><?=$arPrice['OPTIONS']['VIEW_INTAB']?></td></tr>
+				<?}?>
+				</table>
+			<?}?>
+		</td>
 		<td style="padding:0px;">
 			<?if($arPart["PRICES_COUNT"]>0){?>
 				<table class="listprice">
@@ -115,17 +116,27 @@
 					if($PCnt>1){$TopBord='topbord';}else{$TopBord='';}
 					if($PCnt>$arResult['LIST_PRICES_LIMIT']){$HClass='pr'.$arPart['PKEY']; $HStyle='style="display:none;"'; }else{$HStyle=''; $HClass='';}?>
 					<tr class="trow <?=$HClass?> <?=$TopBord?>" <?=$HStyle?> >
-						<td class="avail"><?=$arPrice['AVAILABLE']?> шт.</td>
-						<td class="cost ttip">
+						<td class="<? if($arPrice['DAY']!='0'){ ?>avail<? } else {?>avail green<? } ?>"><?=$arPrice['AVAILABLE']?> шт.</td>
+						<td class="<? if($arPrice['DAY']!='0'){ ?>day ttip<? } else {?>day ttip green<? } ?>" <?if(TDM_ISADMIN){?>title="<?=$arPrice['INFO']?>"<?}?> >
+						<div class="pict_sup"><img src="/autoparts/templates/partslist/default/images/sclock.png"></div>
+						<? if($arPrice['DAY']!='0'){?><?=$arPrice['DAY']?>дн.<?} else {?><?=Lng('Stock',1,0)?><? } ?></td>
+						<td class="<? if($arPrice['DAY']!='0'){ ?>cost ttip<? } else {?>cost ttip green<? } ?>">
 							<?if($arPrice['EDIT_LINK']!=''){?><a href="<?=$arPrice['EDIT_LINK']?>" class="popup editprice" title="<?=Lng('Price',1,0)?>: <?=Lng('Edit',2,0)?>"><?}?>
 							<?=$arPrice['PRICE_FORMATED']?> грн.</a>
 						</td>
-						<td class="tocart">
+						<td class="<? if($arPrice['DAY']!='0'){ ?>tocart<? } else {?>tocart green<? } ?>">
 							<?if($arResult['ADDED_PHID']==$arPrice['PHID']){?>
 								<div class="tdcartadded" title="<?=Lng('Added_to_cart',1,0)?>"><div class="text_cart_added">В корзине</div></div>
-							<? }else{ ?>
+							<?}else{
+								/*?>
+								<table><tr><td>
+								<input type="number" style="width:35px;" value="1" id="Qt_<?=$arPrice['PHID']?>" min="1" <?if($arPrice['AVAILABLE']>0){?>max="<?=$arPrice['AVAILABLE']?>"<?}?> />
+								</td><td>
+								<a href="javascript:void(0)" class="tdcartadd" OnClick="TDMAddToCart('<?=$arPrice['PHID']?>')" title="<?=Lng('Add_to_cart',1,0)?>"></a>
+								</table>
+								*/?>
 							<a href="javascript:void(0)" class="tdcartadd" OnClick="TDMAddToCart('<?=$arPrice['PHID']?>')" title="<?=Lng('Add_to_cart',1,0)?>"><div class="text_cart_add">Купить</div></a>
-							<? } ?>
+							<?}?>
 						</td>
 					</tr>
 				<?}?>
@@ -137,8 +148,12 @@
 			}elseif($arResult['ALLOW_ORDER']==1){?>
 				<a href="javascript:void(0)" class="tdorder" OnClick="TDMOrder('<?=$arPart['PKEY']?>')"><?=Lng('Order',1,0)?></a>
 			<?}?>
-
+			<?if(TDM_ISADMIN){?>
+				<?if($arPart["PRICES_COUNT"]<=0){?><br><?}?>
+				<a href="/<?=TDM_ROOT_DIR?>/admin/dbedit_price.php?ID=NEW&ARTICLE=<?=urlencode($arPart['ARTICLE'])?>&BRAND=<?=urlencode($arPart['BRAND'])?>" class="popup addprice" title="Add price record">+$</a>
+				<a href="/<?=TDM_ROOT_DIR?>/admin/dbedit_link.php?ID=NEW&BKEY=<?=$arPart['BKEY']?>&AKEY=<?=$arPart['AKEY']?>" class="popup addprice" title="Add cross record">+X</a>
+			<?}?>
 		</td>
-		</tr>
-	<?}?>
+		</tr><?
+	}?>
 </table>
