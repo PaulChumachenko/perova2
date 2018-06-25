@@ -80,12 +80,9 @@
 					<?}
 				}?>
 			</div>
-			<?if($arPart["PROPS_COUNT"]>3){?>
+			<?php if($arPart["PROPS_COUNT"] > 3): ?>
 				<a class="moreprops" href="javascript:void(0)" onClick="ShowMoreProps(this,'props<?=$arPart['PKEY']?>')">&#9660; <?=Lng('Show_more_properties',1,false)?> (<?=($arPart["PROPS_COUNT"]-3)?>)</a>
-			<?}?>
-			<?if((!isset($_GET['brand'])) OR (TDMSingleKey($_GET['article'])!=TDMSingleKey($arPart['AKEY']) AND TDMSingleKey($_GET['brand'],true)!=TDMSingleKey($arPart['BRAND'],true)) ){?>
-				<a href="/<?=TDM_ROOT_DIR?>/search/<?=$arPart['AKEY']?>/<?=BrandNameEncode($arPart['BRAND'])?>/" class="lookup_analogues"><?=Lng('Lookup_analogues',1,0)?></a>
-			<?}?>
+			<?php endif; ?>
 		</td>
 		<td style="width:40px; white-space:nowrap;" class="rigbord">
 			<?if($arPart["AID"]>0){?><table class="propstb"><tr><td>

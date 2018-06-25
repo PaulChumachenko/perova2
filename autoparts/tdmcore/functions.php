@@ -800,10 +800,10 @@ function ReplaceComMeta($String, $arMData) {
 			if ($String[$w] == "#") {
 				if ($NewSeg == true) {
 					$NewSeg = false;
-				}
-				else {
+				} else {
 					$NewSeg = true;
 					++$SegKey;
+					++$w;
 					continue;
 				}
 			}

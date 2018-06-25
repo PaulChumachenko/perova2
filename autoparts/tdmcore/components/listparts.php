@@ -23,7 +23,6 @@ if (0 < count($arPARTS_noP)) {
 	}
 
 	// PC: Load Cross items
-	// Error
 	foreach ($arSrCrParts as $PKEY => $arTPart) {
 		$CrSQL = "SELECT * FROM TDM_LINKS WHERE PKEY1=\"" . $PKEY . "\" AND SIDE IN (0,1) ";
 		$rsLinks->SimpleSelect($CrSQL);
@@ -362,11 +361,9 @@ if (0 < count($arPARTS_noP)) {
 	}
 
 	// PC: Process pagination
-	// PC: Here $arPARTS_noP become $arPARTS and $arPAIDs_noP - $arPAIDs
+	// PC: Pagination processes in PartsListProcessor later
 	$arPARTS = $arPARTS_noP;
 	$arPAIDs = $arPAIDs_noP;
-
-	// PC: Pagination processes in PartsListProcessor later
 //	$arResult["PAGINATION"]["TOTAL_ITEMS"] = count($arPARTS_noP);
 //	$OnPage = $arComSets["ITEMS_ON_PAGE_" . $arResult["VIEW"]];
 //	$arResult["PAGINATION"]["TOTAL_PAGES"] = ceil($arResult["PAGINATION"]["TOTAL_ITEMS"] / $OnPage);
