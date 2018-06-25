@@ -268,4 +268,51 @@ class PcPartsListProcessor
 
 		return $pricesResults->RowsCount;
 	}
+
+	/**
+	 * @param array $settings TecDoc Settings
+	 * @return $this
+	 */
+	public function addPagination($settings = [])
+	{
+		if (empty($this->list['PARTS'])) return $this;
+
+		$this->list['PAGINATION']['TOTAL_ITEMS'] = count($this->list['PARTS']);
+		$pageSize = $settings['ITEMS_ON_PAGE_' . $this->list['VIEW']];
+		$this->list['PAGINATION']['TOTAL_PAGES'] = ceil($this->list['PAGINATION']['TOTAL_ITEMS'] / $pageSize);
+		$currentPage = intval($_REQUEST['page']) ?: 1;
+		
+		if ($this->list['PAGINATION']['TOTAL_PAGES'] < $currentPage) {
+			$currentPage = $this->list['PAGINATION']['TOTAL_PAGES'];
+		}
+
+		$partsPaginationList = [];
+		if ($this->list['PAGINATION']['TOTAL_ITEMS'] > $pageSize) {
+			if ($pageSize < 6) $pageSize = 6;
+			if ($pageSize > 100) $pageSize = 100;
+			
+			$startPosition = $pageSize * ($currentPage - 1);
+			$endPosition = $pageSize * $currentPage;
+			$index = 0;
+			$itemsOnCurrentPage = 0;
+			foreach ($this->list['PARTS'] as $part) {
+				$index++;
+				if ($index > $startPosition && $index <= $endPosition) {
+					$itemsOnCurrentPage++;
+					$partsPaginationList[] = $part;
+				}
+
+				if ($index >= $endPosition) break;
+			}
+			$arResult['PAGINATION']['ITEMS_ON_THIS_PAGE'] = $itemsOnCurrentPage;
+			$arResult['PAGINATION']['PAGES_LINK'] = $_SERVER['REQUEST_URI'];
+		}
+
+		$arResult['PAGINATION']['ITEMS_ON_PAGE'] = $pageSize;
+		$arResult['PAGINATION']['CURRENT_PAGE'] = $currentPage;
+
+		if ($partsPaginationList) $this->list['PARTS'] = $partsPaginationList;
+
+		return $this;
+	}
 }

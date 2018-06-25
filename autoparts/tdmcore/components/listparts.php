@@ -363,49 +363,53 @@ if (0 < count($arPARTS_noP)) {
 
 	// PC: Process pagination
 	// PC: Here $arPARTS_noP become $arPARTS and $arPAIDs_noP - $arPAIDs
-	$arResult["PAGINATION"]["TOTAL_ITEMS"] = count($arPARTS_noP);
-	$OnPage = $arComSets["ITEMS_ON_PAGE_" . $arResult["VIEW"]];
-	$arResult["PAGINATION"]["TOTAL_PAGES"] = ceil($arResult["PAGINATION"]["TOTAL_ITEMS"] / $OnPage);
-	$CrPage = intval($_REQUEST["page"]);
-	if ($CrPage < 1) {
-		$CrPage = 1;
-	}
-	if ($arResult["PAGINATION"]["TOTAL_PAGES"] < $CrPage) {
-		$CrPage = $arResult["PAGINATION"]["TOTAL_PAGES"];
-	}
-	if ($OnPage < $arResult["PAGINATION"]["TOTAL_ITEMS"]) {
-		if ($OnPage < 6) {
-			$OnPage = 6;
-		}
-		if (100 < $OnPage) {
-			$OnPage = 100;
-		}
-		$PStart = $OnPage * ($CrPage - 1);
-		$PEnd = $OnPage * $CrPage;
-		foreach ($arPARTS_noP as $PKey => $arTPart) {
-			++$PCn;
-			if ($PStart < $PCn && $PCn <= $PEnd) {
-				++$ThisPg;
-				$arPARTS[$PKey] = $arTPart;
-				if (0 < $arTPart["AID"]) {
-					$arPAIDs[] = $arTPart["AID"];
-				}
-			}
-			if (!($PEnd <= $PCn)) {
-				continue;
-			}
-			break;
-		}
-		$arResult["PAGINATION"]["ITEMS_ON_THIS_PAGE"] = $ThisPg;
-		$arResult["PAGINATION"]["PAGES_LINK"] = $_SERVER["REQUEST_URI"];
-	}
-	else {
-		$arPARTS = $arPARTS_noP;
-		$arPAIDs = $arPAIDs_noP;
-	}
-	$arResult["PAGINATION"]["ITEMS_ON_PAGE"] = $OnPage;
-	$arResult["PAGINATION"]["CURRENT_PAGE"] = $CrPage;
-	TDMSetTime("Sorting & Pagination ## For items count - " . count($arPARTS_noP));
+	$arPARTS = $arPARTS_noP;
+	$arPAIDs = $arPAIDs_noP;
+
+	// PC: Pagination processes in PartsListProcessor later
+//	$arResult["PAGINATION"]["TOTAL_ITEMS"] = count($arPARTS_noP);
+//	$OnPage = $arComSets["ITEMS_ON_PAGE_" . $arResult["VIEW"]];
+//	$arResult["PAGINATION"]["TOTAL_PAGES"] = ceil($arResult["PAGINATION"]["TOTAL_ITEMS"] / $OnPage);
+//	$CrPage = intval($_REQUEST["page"]);
+//	if ($CrPage < 1) {
+//		$CrPage = 1;
+//	}
+//	if ($arResult["PAGINATION"]["TOTAL_PAGES"] < $CrPage) {
+//		$CrPage = $arResult["PAGINATION"]["TOTAL_PAGES"];
+//	}
+//	if ($OnPage < $arResult["PAGINATION"]["TOTAL_ITEMS"]) {
+//		if ($OnPage < 6) {
+//			$OnPage = 6;
+//		}
+//		if (100 < $OnPage) {
+//			$OnPage = 100;
+//		}
+//		$PStart = $OnPage * ($CrPage - 1);
+//		$PEnd = $OnPage * $CrPage;
+//		foreach ($arPARTS_noP as $PKey => $arTPart) {
+//			++$PCn;
+//			if ($PStart < $PCn && $PCn <= $PEnd) {
+//				++$ThisPg;
+//				$arPARTS[$PKey] = $arTPart;
+//				if (0 < $arTPart["AID"]) {
+//					$arPAIDs[] = $arTPart["AID"];
+//				}
+//			}
+//			if (!($PEnd <= $PCn)) {
+//				continue;
+//			}
+//			break;
+//		}
+//		$arResult["PAGINATION"]["ITEMS_ON_THIS_PAGE"] = $ThisPg;
+//		$arResult["PAGINATION"]["PAGES_LINK"] = $_SERVER["REQUEST_URI"];
+//	}
+//	else {
+//		$arPARTS = $arPARTS_noP;
+//		$arPAIDs = $arPAIDs_noP;
+//	}
+//	$arResult["PAGINATION"]["ITEMS_ON_PAGE"] = $OnPage;
+//	$arResult["PAGINATION"]["CURRENT_PAGE"] = $CrPage;
+//	TDMSetTime("Sorting & Pagination ## For items count - " . count($arPARTS_noP));
 
 	// PC: Sorting Properties from TecDoc for each part
 	if ($arComSets["SHOW_ITEM_PROPS"] == 1 && $arResult["VIEW"] == "LIST") {
@@ -636,6 +640,7 @@ if (0 < $arResult["ALL_BRANDS_COUNT"]) {
 // PC: We have a result for display now
 $arResult = (new PcPartsListProcessor($arResult, $TDMCore))
 				->runPostProcessing()
+				->addPagination($arComSets)
 				->sortList()
 				->getList();
 
