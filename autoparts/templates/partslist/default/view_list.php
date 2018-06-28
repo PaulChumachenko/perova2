@@ -2,7 +2,7 @@
 
 <table class="tdlist">
 	<tr class="head">
-		<td></td>
+		<td>Производитель</td>
 		<td></td>
 		<td><?=Lng('Name',1,0);?></td>
 		<td></td>
