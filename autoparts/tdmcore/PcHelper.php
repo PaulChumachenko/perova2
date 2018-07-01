@@ -58,12 +58,14 @@ class PcHelper
 	/**
 	 * @param $var
 	 * @param int $varDump
+	 * @param bool $printTrace
 	 */
-	public static function dump($var, $varDump = 0)
+	public static function dump($var, $varDump = 0, $printTrace = false)
 	{
 		if (TDM_ISADMIN){
 			echo "<div class=\"imlog\">PC Var Dump:</div>";
 			echo "<pre>" . ($varDump ? var_export($var, true) : $var) . "</pre>";
+			if ($printTrace) debug_print_backtrace();
 		}
 	}
 

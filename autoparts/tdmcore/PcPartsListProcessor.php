@@ -182,18 +182,56 @@ class PcPartsListProcessor
 	{
 		if(empty($this->list['PARTS'])) return $this;
 
-		foreach($this->list['PARTS'] as $part){
-			// Try to load Part AID from TecDoc
-			// Try pairs: PC_MANUFACTURER-PC_SKU | BRAND-ARTICLE | BKEY-AKEY
-			$tdPart = TDSQL::GetPartByPKEY($part['PC_MANUFACTURER'], $part['PC_SKU']);
-			PcHelper::dump('Result for ' . $part['PC_MANUFACTURER'] . ' ' . $part['PC_SKU']);
-			PcHelper::dump($tdPart,1);
-			if ($aid = $tdPart['AID']){
+		$this->core->DBSelect("TECDOC");
+		if($artIds = $this->getArtIds()){
+			$this->unsetPreviousImages();
+			$imagesRequest = TDSQL::GetImagesUnion($artIds);
+			while($image = $imagesRequest->Fetch()){
+				foreach($this->list['PARTS'] as $index => $part){
+					if (!($part['AID'] == $image['AID'] && !(strpos($image['PATH'], '0/0.jpg')))) continue;
 
+					if (empty($this->list['PARTS'][$index]['IMG_ZOOM'])) {
+						$this->list['PARTS'][$index]['IMG_SRC'] = 'http://' . TECDOC_FILES_PREFIX . $image['PATH'];
+						$this->list['PARTS'][$index]['IMG_ZOOM'] = 'Y';
+						$this->list['PARTS'][$index]['IMG_FROM'] = 'TecDoc';
+						continue;
+					}
+
+					$this->list['PARTS'][$index]['IMG_ADDITIONAL'][] = 'http://' . TECDOC_FILES_PREFIX . $image['PATH'];
+				}
 			}
 		}
 
 		return $this;
+	}
+
+	protected function unsetPreviousImages()
+	{
+		foreach($this->list['PARTS'] as $index => $part){
+			if (isset($this->list['PARTS'][$index]['IMG_SRC'])) unset($this->list['PARTS'][$index]['IMG_SRC']);
+			if (isset($this->list['PARTS'][$index]['IMG_ZOOM'])) unset($this->list['PARTS'][$index]['IMG_ZOOM']);
+			if (isset($this->list['PARTS'][$index]['IMG_FROM'])) unset($this->list['PARTS'][$index]['IMG_FROM']);
+			if (isset($this->list['PARTS'][$index]['IMG_ADDITIONAL'])) unset($this->list['PARTS'][$index]['IMG_ADDITIONAL']);
+		}
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getArtIds()
+	{
+		$artIds = [];
+		foreach($this->list['PARTS'] as &$part){
+			$brand = $part['BKEY'];
+			$article = TDMSingleKey($part['AKEY']);
+			$tdPart = TDSQL::GetPartByPKEY($brand, $article);
+			if (!empty($tdPart['AID'])) {
+				$artIds[] = $tdPart['AID'];
+				$part['AID'] = $tdPart['AID'];
+			}
+		}
+
+		return $artIds;
 	}
 
 	/**
@@ -314,5 +352,26 @@ class PcPartsListProcessor
 		if ($partsPaginationList) $this->list['PARTS'] = $partsPaginationList;
 
 		return $this;
+	}
+
+	protected function testLookupByBrandNumber($brand, $article)
+	{
+		$tdPart = TDSQL::LookupByBrandNumber($brand, $article);
+		PcHelper::dump('LookupByBrandNumber Result for ' . $brand . ' ' . $article);
+		while ($fetch = $tdPart->Fetch()) PcHelper::dump($fetch, 1);
+	}
+
+	protected function testLookupByNumber($article)
+	{
+		$tdPart = TDSQL::LookupByNumber($article);
+		PcHelper::dump('LookupByNumber Result for ' . $article);
+		while ($fetch = $tdPart->Fetch()) PcHelper::dump($fetch, 1);
+	}
+
+	protected function testLookupByPk($brand, $article)
+	{
+		$tdPart = TDSQL::GetPartByPKEY($brand, $article);
+		PcHelper::dump('GetPartByPKEY Result for ' . $brand . ' ' . $article);
+		PcHelper::dump($tdPart, 1);
 	}
 }

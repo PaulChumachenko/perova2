@@ -638,6 +638,7 @@ if (0 < $arResult["ALL_BRANDS_COUNT"]) {
 $arResult = (new PcPartsListProcessor($arResult, $TDMCore))
 				->runPostProcessing()
 				->addPagination($arComSets)
+				->loadImages()
 				->sortList()
 				->getList();
 

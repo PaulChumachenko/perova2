@@ -255,7 +255,11 @@ if(count($arPARTS_noP)>0){
 	$arResult['PARTS'] = Array();
 	$arResult['PARTS'] = $arPARTS;
 
-	$arResult = (new PcPartsListProcessor($arResult, $TDMCore))->runPostProcessing()->flushPartsWithoutPrices()->getList();
+	$arResult = (new PcPartsListProcessor($arResult, $TDMCore))
+		->runPostProcessing()
+		->flushPartsWithoutPrices()
+		->loadImages()
+		->getList();
 
 	$arResult['ADDED_PHID'] = TDMPerocessAddToCart($arResult['PRICES'],$arResult['PARTS']);
 }
