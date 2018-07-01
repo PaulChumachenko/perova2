@@ -185,8 +185,8 @@ class PcPartsListProcessor
 		$this->core->DBSelect("TECDOC");
 		if($artIds = $this->getArtIds()){
 			$this->unsetPreviousImages();
-			$imagesRequest = TDSQL::GetImagesUnion($artIds);
-			while($image = $imagesRequest->Fetch()){
+			$imagesQuery = TDSQL::GetImagesUnion($artIds);
+			while($image = $imagesQuery->Fetch()){
 				foreach($this->list['PARTS'] as $index => $part){
 					if (!($part['AID'] == $image['AID'] && !(strpos($image['PATH'], '0/0.jpg')))) continue;
 
@@ -222,16 +222,27 @@ class PcPartsListProcessor
 	{
 		$artIds = [];
 		foreach($this->list['PARTS'] as &$part){
+			$brand = $part['PC_MANUFACTURER'];
+			$article = TDMSingleKey($part['PC_SKU']);
+			$tdPart = TDSQL::GetPartByPKEY($brand, $article);
+			//$tdPart = $this->getTecDocPartByPk($brand, $article);
+			if (!empty($tdPart['AID'])) {
+				$artIds[] = $tdPart['AID'];
+				$part['AID'] = $tdPart['AID'];
+				continue;
+			}
+
 			$brand = $part['BKEY'];
 			$article = TDMSingleKey($part['AKEY']);
 			$tdPart = TDSQL::GetPartByPKEY($brand, $article);
+			//$tdPart = $this->getTecDocPartByPk($brand, $article);
 			if (!empty($tdPart['AID'])) {
 				$artIds[] = $tdPart['AID'];
 				$part['AID'] = $tdPart['AID'];
 			}
 		}
 
-		return $artIds;
+		return array_unique($artIds);
 	}
 
 	/**
@@ -373,5 +384,44 @@ class PcPartsListProcessor
 		$tdPart = TDSQL::GetPartByPKEY($brand, $article);
 		PcHelper::dump('GetPartByPKEY Result for ' . $brand . ' ' . $article);
 		PcHelper::dump($tdPart, 1);
+	}
+
+	/**
+	 * There are some problems in this method.
+	 * I don't know what exactly but something wrong with it.
+	 * For continuing I need TDSQL::GetPartByPKEY code or some explanations
+	 * about TecDoc DB structure
+	 * @param $brand
+	 * @param $article
+	 * @return array
+	 */
+	protected function getTecDocPartByPk($brand, $article)
+	{
+		$sql = "
+			SELECT DISTINCT
+			  IF (ART_LOOKUP.ARL_KIND IN (3, 4), BRANDS.BRA_BRAND, SUPPLIERS.SUP_BRAND) AS BRAND,
+			  ART_LOOKUP.ARL_SEARCH_NUMBER AS ARTICLE,
+			  ART_LOOKUP.ARL_KIND AS KIND,
+			  ARTICLES.ART_ID AS AID,
+			  DES_TEXTS.TEX_TEXT AS TD_NAME
+			FROM ART_LOOKUP
+			  LEFT JOIN BRANDS ON BRANDS.BRA_ID = ART_LOOKUP.ARL_BRA_ID
+			  INNER JOIN ARTICLES ON ARTICLES.ART_ID = ART_LOOKUP.ARL_ART_ID
+			  INNER JOIN SUPPLIERS ON SUPPLIERS.SUP_ID = ARTICLES.ART_SUP_ID
+			  INNER JOIN DESIGNATIONS ON DESIGNATIONS.DES_ID = ARTICLES.ART_COMPLETE_DES_ID
+			  INNER JOIN DES_TEXTS ON DES_TEXTS.TEX_ID = DESIGNATIONS.DES_TEX_ID
+			WHERE ART_LOOKUP.ARL_SEARCH_NUMBER = '{$article}'
+				AND ART_LOOKUP.ARL_KIND IN (1, 2, 3, 4, 5)
+				AND DESIGNATIONS.DES_LNG_ID = " . TDM_LANG_ID . "
+			ORDER BY ARL_KIND DESC";
+
+		$result = new TDSQLQuery();
+		$result->QuerySelect($sql);
+		while ($row = $result->Fetch()) {
+			$fetchedBrand = TDMSingleKey($row['BRAND'], true);
+			if ($fetchedBrand == $brand) return $row;
+		}
+
+		return [];
 	}
 }

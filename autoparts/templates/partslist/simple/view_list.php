@@ -32,9 +32,9 @@
 		?>
 		<tr class="cols">
 			<td class="tdbrand">
-				<a href="/<?=TDM_ROOT_DIR?>/search/<?=$arPart['AKEY']?>/<?=BrandNameEncode($arPart['BRAND'])?>" class="<?=$BrandClass?>"><?=$arPart['BRAND']?></a>
+				<a href="/<?=TDM_ROOT_DIR?>/search/<?=$arPart['AKEY']?>/<?=BrandNameEncode($arPart['BRAND'])?>" class="<?=$BrandClass?>"><?= !empty($arPart['PC_MANUFACTURER']) ? $arPart['PC_MANUFACTURER'] : $arPart['BRAND'] ?></a>
 				<?=$BrLink?><br>
-				<div class="ttip" <?if(TDM_ISADMIN){?>ttip" title="BKEY: <?=$arPart['BKEY']?><br>AKEY: <?=$arPart['AKEY']?><br>ID:<?=$arPart['AID']?><?}?>"><?=$arPart['ARTICLE']?></div>
+				<div class="ttip" <?if(TDM_ISADMIN){?>ttip" title="BKEY: <?=$arPart['BKEY']?><br>AKEY: <?=$arPart['AKEY']?><br>AID: <?=$arPart['AID']?><?}?>"><?= !empty($arPart['PC_SKU']) ? $arPart['PC_SKU'] : $arPart['ARTICLE'] ?></div>
 				<?if($arPart['KIND']>0){?><span style="font-size:11px;"><?=TDMPrintArtKinde($arPart['KIND']);?></span><?}?>
 			</td>
 			<td width = "15%">

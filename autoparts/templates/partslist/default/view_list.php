@@ -44,7 +44,7 @@
 		<td class="tdbrand">
 			<a class = "<?= $BrandClass ?>"><?= !empty($arPart['PC_MANUFACTURER']) ? $arPart['PC_MANUFACTURER'] : $arPart['BRAND'] ?></a>
 			<?= $BrLink ?><br>
-			<div class="ttip" <?if(TDM_ISADMIN){?>ttip" title="BKEY: <?=$arPart['BKEY']?><br>AKEY: <?=$arPart['AKEY']?><br>AID:<?=$arPart['AID']?><?}?>"><?= !empty($arPart['PC_SKU']) ? $arPart['PC_SKU'] : $arPart['ARTICLE'] ?></div>
+			<div class="ttip" <?if(TDM_ISADMIN){?>ttip" title="BKEY: <?=$arPart['BKEY']?><br>AKEY: <?=$arPart['AKEY']?><br>AID: <?=$arPart['AID']?><?}?>"><?= !empty($arPart['PC_SKU']) ? $arPart['PC_SKU'] : $arPart['ARTICLE'] ?></div>
 			<?php if($arPart['KIND'] > 0): ?>
 				<span style="font-size:11px;"><?= TDMPrintArtKinde($arPart['KIND']) ?></span>
 			<?php endif; ?>

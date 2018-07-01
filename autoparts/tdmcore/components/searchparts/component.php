@@ -261,6 +261,8 @@ if(count($arPARTS_noP)>0){
 		->loadImages()
 		->getList();
 
+	//PcHelper::dump($arResult['PARTS'],1);
+
 	$arResult['ADDED_PHID'] = TDMPerocessAddToCart($arResult['PRICES'],$arResult['PARTS']);
 }
 
