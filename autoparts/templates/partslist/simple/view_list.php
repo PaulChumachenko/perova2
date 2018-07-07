@@ -72,7 +72,7 @@
 			<td style="width:40px; white-space:nowrap;" class="rigbord">
 				<?if($arPart["AID"]>0){?><table class="propstb"><tr><td>
 					<a href="/<?=TDM_ROOT_DIR?>/props.php?of=<?=$arPart["AID"]?>" class="dopinfo popup" title="<?=Lng('Additional_Information',1,0)?>"></a></td><td>
-					<a href="javascript:void(0)" OnClick="AppWin('<?=TDM_ROOT_DIR?>',<?=$arPart["AID"]?>,980)" class="carsapp" target="_blank" title="<?=Lng('Applicability_to_model_cars',1,0)?>"></a></table>
+					<a href="javascript:void(0)" OnClick="AppWin('<?=TDM_ROOT_DIR?>',<?=$arPart["AID"]?>,980)" class="carsapp" title="<?=Lng('Applicability_to_model_cars',1,0)?>"></a></table>
 				<?}?>
 			</td>
 		</tr>

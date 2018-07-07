@@ -119,7 +119,7 @@
 								<button type="button" class="btn btn-primary buy" class="tdcartadd">ОЕ Номера</button>	</a>
 	</td>  <td style="width: 50%;">
 
-							<a href="javascript:void(0)" OnClick="AppWin('<?=TDM_ROOT_DIR?>',<?=$arPart["AID"]?>,980)"  target="_blank">
+							<a href="javascript:void(0)" OnClick="AppWin('<?=TDM_ROOT_DIR?>',<?=$arPart["AID"]?>,980)">
 						<button type="button" class="btn btn-primary buy" class="tdcartadd">Применяемость</button></a>
 </td></tr>
 					</table>
