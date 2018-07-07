@@ -21,6 +21,15 @@
     margin-right: 5px;
     border-radius: 3px;
 }
+.autopics {
+    width: 90px;
+    height: 90px;
+    right: 20px;
+    top: 0px;
+    position: absolute;
+    background-position: center center!important;
+    background-repeat: no-repeat!important;
+}
 .letfilter a.first{border-radius: 3px 0 0 3px;}
 .letfilter a.last{border-right: 1px solid silver; border-radius: 0 3px 3px 0;}
 .letfilter a:hover{background: #eee; color:#fff;}
@@ -156,11 +165,7 @@
 }
 .tdlist .cols td{vertical-align:top; padding:10px 8px 10px 8px; border-bottom:1px solid #D1D1D1;}
 .tdlist .cols:hover{background:#fff;}
-.tdlist .tdbrand a{    /* color: #124D87; */
-    font-weight: bold;
-    font-size: 12px;
-    font-family: Verdana;
-    line-height: 18px}
+.tdlist .tdbrand a{color:#124D87; font-weight:bold; font-size:12px; font-family:Verdana; line-height:18px;}
 .tdlist .tdbrand a:hover{color:#C43800;}
 .tdlist .lookup_analogues{
     background: #337ab7;
@@ -206,10 +211,8 @@ width: auto;
 .tdlist .dopinfo{width:16px; height:16px; background:url('images/dinfo.png'); float:left; display:block; margin:0px 6px 0px 0px;}
 .tdlist .dopinfo:hover{opacity:0.5; margin-top:-1px;}
 .tdlist .options{text-align:right;}
-.tdlist .rigbord{border-right: 1px solid #337ab7;
-    border-left: 1px solid #337ab7;
-    border-top: 1px solid #337ab7;
-    border-bottom: 1px solid #337ab7;}
+.tdlist .rigbord{    border-right: 1px solid #101f5f!important;
+    border-left: 1px solid #101f5f!important;}
 .tdlist .carsapp{width:16px; height:16px; background:url('images/cars.png'); float:left; display:block; margin:0px;}
 .tdlist .carsapp:hover{opacity:0.5; margin-top:-1px;}
 .tdlist .sbut{color:#b42410; display:block; padding:0px 0px 6px 0px; text-align:center;}
@@ -218,7 +221,7 @@ width: auto;
 .tdlist .criteria{color: #000000; font-size:11px;}
 .tdlist .topbord{border-top:1px dashed #D1D1D1!important;}
 .tdlist .itemprops{
-	     /* overflow: hidden; */
+	overflow: hidden;
     cursor: default;
     margin: 0px 5px 5px 5px;
     line-height: 12px!important;

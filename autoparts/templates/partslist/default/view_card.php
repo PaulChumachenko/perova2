@@ -6,7 +6,7 @@ foreach($arResult['PARTS'] as $NumKey=>$arPart){
 		$Cnt++; $PCnt=0; $cm=''; $AddF=0;
 		//Criteria display method
 		if($arPart['CRITERIAS_COUNT']>0){
-			foreach($arPart['CRITERIAS'] as $Criteria=>$Value){ 
+			foreach($arPart['CRITERIAS'] as $Criteria=>$Value){
 				if($Criteria!=''){$arPart['CRITERIA'].=$cm.$Criteria.' - '.$Value;}else{$arPart['CRITERIA'].=$cm.UWord($Value);} $cm='; ';
 			}
 		}
@@ -44,7 +44,7 @@ foreach($arResult['PARTS'] as $NumKey=>$arPart){
 				<a href="/<?=TDM_ROOT_DIR?>/props.php?of=<?=$arPart["AID"]?>" class="dopinfo popup" target="_blank" title="<?=Lng('Additional_Information',1,0)?>"></a>
 			<?}?>
 			<div class="article <?if(TDM_ISADMIN){?>ttip " title="BKEY: <?=$arPart['BKEY']?><br>AKEY: <?=$arPart['AKEY']?><?}?>" >
-				<?=$arPart['ARTICLE']?> 
+				<?=$arPart['ARTICLE']?>
 				<?if(TDM_ISADMIN){?><span class="aid">ID:<?=$arPart['AID']?></span><?}?>
 			</div>
 			<hr>

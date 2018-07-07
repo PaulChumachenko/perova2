@@ -19,3 +19,6 @@ cli/pc_import.php
 autoparts/templates/partslist/ss/view_list.php
 autoparts/templates/partslist/default/view_list.php
 autoparts/templates/partslist/ss/style.css
+
+-- 07.07.2018 --
+system\modification\admin\model\catalog\product.php

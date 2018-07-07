@@ -4,14 +4,16 @@
 <?jsLinkFormStyler()?>
 <script>AddFSlyler('select');</script>
 <?jsLinkJqueryUi()?>
-<script> $(function() {  
+<script> $(function() {
 	$(".popup").colorbox({rel:false, current:'', preloading:false, arrowKey:false, scrolling:false, overlayClose:false});
-	$('.ttip').tooltip({ position:{my:"left+25 top+20"}, track:true, content:function(){return $(this).prop('title');}});   }); 
+	$('.ttip').tooltip({ position:{my:"left+25 top+20"}, track:true, content:function(){return $(this).prop('title');}});   });
 </script>
 
 <div class="tclear"></div>
 <h1><?=TDM_H1?></h1>
 <?TDMShowBreadCumbs()?>
+<hr style="width:86%;">
+<div class="autopic" title="<?=$arResult['MFA_MFC_CODE']?>" style="background:url(<?=$arResult['BRAND_LOGO_SRC']?>)"></div>
 <?=TDMShowSEOText("TOP")?>
 
 <?php if(count($arResult['PARTS']) > 0): ?>
