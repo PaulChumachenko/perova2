@@ -150,18 +150,21 @@ if(count($arPARTS_noP)>0){
 		TDMSetTime('GetPropertysUnion(PAIDs) ## For items count - '.$arPAIDs_noP_cnt);
 		foreach($arPARTS_noP as $PKey=>$arTPart){
 			$ar_AID[$PKey] = $arTPart['AID'];
-			$ar_PKEY[$arTPart['AID']] = $PKey;
+			$ar_PKEY[$arTPart['AID']][] = $PKey;
 		}
 		$arHiddenProps=Array(1073); //Спецификация (один ключ и масса моделей авто)
 		while($arProp = $rsProps->Fetch()){
-			if($arProp['VALUE']!=''){
-				if($arProp['CRID']==836 OR $arProp['CRID']==596){ //Дополнительный артикул / Доп. информация
-					$arProp['NAME']=$arProp["VALUE"]; $arProp["VALUE"]='';
-				}
-				if(in_array($arProp["AID"],$ar_AID) AND !isset($arPARTS_noP[$ar_PKEY[$arProp['AID']]]["PROPS"][$arProp['NAME']])){
-					$arPARTS_noP[$ar_PKEY[$arProp['AID']]]["PROPS_COUNT"]++;
-					$arPARTS_noP[$ar_PKEY[$arProp['AID']]]["PROPS"][$arProp['NAME']] = $arProp["VALUE"];
-				}
+			if (empty($arProp["VALUE"]) || !in_array($arProp["AID"], $ar_AID)) continue;
+
+			if($arProp['CRID']==836 OR $arProp['CRID']==596){ //Дополнительный артикул / Доп. информация
+				$arProp['NAME']=$arProp["VALUE"]; $arProp["VALUE"]='';
+			}
+
+			foreach($ar_PKEY[$arProp["AID"]] as $pk){
+				if (isset($arPARTS_noP[$pk]['PROPS'][$arProp['NAME']])) continue;
+
+				$arPARTS_noP[$pk]["PROPS_COUNT"]++;
+				$arPARTS_noP[$pk]["PROPS"][$arProp["NAME"]] = $arProp["VALUE"];
 			}
 		}
 		TDMSetTime('GetPropertysUnion(PAIDs) ## Processing result');
@@ -259,6 +262,7 @@ if(count($arPARTS_noP)>0){
 		->runPostProcessing()
 		->flushPartsWithoutPrices()
 		->loadImages()
+		->loadProperties(true)
 		->getList();
 
 	//PcHelper::dump($arResult['PARTS'],1);

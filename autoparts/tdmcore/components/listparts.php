@@ -280,33 +280,36 @@ if (0 < count($arPARTS_noP)) {
 	}
 
 	// PC: Load Properties for each Part from TecDoc
+	// PC: Fixed by me
 	if (0 < $arPAIDs_noP_cnt && $arComSets["SHOW_ITEM_PROPS"] == 1 && $arResult["VIEW"] == "LIST") {
 		$rsProps = TDSQL::GetPropertysUnion($arPAIDs_noP);
 		TDMSetTime("GetPropertysUnion(PAIDs) ## For items count - " . $arPAIDs_noP_cnt);
 		foreach ($arPARTS_noP as $PKey => $arTPart) {
 			$ar_AID[$PKey] = $arTPart["AID"];
-			$ar_PKEY[$arTPart["AID"]] = $PKey;
+			$ar_PKEY[$arTPart["AID"]][] = $PKey;
 		}
+
 		$arHiddenProps = array(1073);
 		while ($arProp = $rsProps->Fetch()) {
-			if (!($arProp["VALUE"] != "")) {
-				continue;
-			}
+			if (empty($arProp["VALUE"]) || !in_array($arProp["AID"], $ar_AID)) continue;
+
 			if ($arProp["CRID"] == 836 || $arProp["CRID"] == 596) {
-				$arProp["NAME"] = $arProp["VALUE"];
-				$arProp["VALUE"] = "";
+				$arProp["NAME"] = $arProp["VALUE"]; $arProp["VALUE"] = "";
 			}
-			if (!(in_array($arProp["AID"], $ar_AID) && !(isset($arPARTS_noP[$ar_PKEY[$arProp["AID"]]]["PROPS"][$arProp["NAME"]])))) {
-				continue;
+
+			foreach($ar_PKEY[$arProp["AID"]] as $pk){
+				if (isset($arPARTS_noP[$pk]["PROPS"][$arProp["NAME"]])) continue;
+
+				if ($arProp["CRID"] == 410) {
+					$arProp["VALUE"] = "<a href=\"/" . TDM_ROOT_DIR . "/templates/descriptions/spring_" . TDM_LANG . ".php?trd=" . TDM_ROOT_DIR . "\" class=\"popup\">" . $arProp["VALUE"] . "</a>";
+				}
+				if (TDM_ISADMIN && $arProp["VALUE"] != "") {
+					$arProp["VALUE"] = "<span title=\"CRID: " . $arProp["CRID"] . "\">" . $arProp["VALUE"] . "</span>";
+				}
+
+				$arPARTS_noP[$pk]["PROPS_COUNT"]++;
+				$arPARTS_noP[$pk]["PROPS"][$arProp["NAME"]] = ["CRID" => $arProp["CRID"], "VALUE" => $arProp["VALUE"]];
 			}
-			if ($arProp["CRID"] == 410) {
-				$arProp["VALUE"] = "<a href=\"/" . TDM_ROOT_DIR . "/templates/descriptions/spring_" . TDM_LANG . ".php?trd=" . TDM_ROOT_DIR . "\" class=\"popup\">" . $arProp["VALUE"] . "</a>";
-			}
-			if (TDM_ISADMIN && $arProp["VALUE"] != "") {
-				$arProp["VALUE"] = "<span title=\"CRID: " . $arProp["CRID"] . "\">" . $arProp["VALUE"] . "</span>";
-			}
-			++$arPARTS_noP[$ar_PKEY[$arProp["AID"]]]["PROPS_COUNT"];
-			$arPARTS_noP[$ar_PKEY[$arProp["AID"]]]["PROPS"][$arProp["NAME"]] = array("CRID" => $arProp["CRID"], "VALUE" => $arProp["VALUE"]);
 		}
 		TDMSetTime("GetPropertysUnion(PAIDs) ## Processing result");
 	}

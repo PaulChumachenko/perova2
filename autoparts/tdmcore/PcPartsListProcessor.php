@@ -2,9 +2,10 @@
 
 class PcPartsListProcessor
 {
-	private $list;
 	/** @var TDMCore */
 	private $core;
+	private $list;
+	private $artIds;
 
 	/**
 	 * @param $list
@@ -220,6 +221,8 @@ class PcPartsListProcessor
 	 */
 	protected function getArtIds()
 	{
+		if (!empty($this->artIds)) return $this->artIds;
+		
 		$artIds = [];
 		foreach($this->list['PARTS'] as &$part){
 			$brand = $part['PC_MANUFACTURER'];
@@ -241,8 +244,9 @@ class PcPartsListProcessor
 				$part['AID'] = $tdPart['AID'];
 			}
 		}
-
-		return array_unique($artIds);
+		$this->artIds = array_unique($artIds);
+		
+		return $this->artIds;
 	}
 
 	/**
@@ -361,6 +365,39 @@ class PcPartsListProcessor
 		$arResult['PAGINATION']['CURRENT_PAGE'] = $currentPage;
 
 		if ($partsPaginationList) $this->list['PARTS'] = $partsPaginationList;
+
+		return $this;
+	}
+
+	/**
+	 * @param bool $isSearchListView
+	 * @return $this
+	 */
+	public function loadProperties($isSearchListView = false)
+	{
+		$artIds = $this->getArtIds();
+		if (empty($artIds)) return $this;
+		
+		$rsProps = TDSQL::GetPropertysUnion($artIds);
+		$pks = [];
+		foreach($this->list['PARTS'] as $index => $part){
+			$pks[$part['AID']][] = $index;
+		}
+		
+		while ($prop = $rsProps->Fetch()) {
+			if (empty($prop['VALUE']) || !in_array($prop['AID'], $artIds)) continue;
+
+			if ($prop['CRID'] == 836 || $prop['CRID'] == 596) {
+				$prop['NAME'] = $prop['VALUE']; $prop['VALUE'] = '';
+			}
+
+			foreach($pks[$prop['AID']] as $index){
+				if (isset($this->list['PARTS'][$index]['PROPS'][$prop['NAME']])) continue;
+
+				$this->list['PARTS'][$index]['PROPS_COUNT']++;
+				$this->list['PARTS'][$index]['PROPS'][$prop['NAME']] = $isSearchListView ? $prop['VALUE'] : ['CRID' => $prop['CRID'], 'VALUE' => $prop['VALUE']];
+			}
+		}
 
 		return $this;
 	}
