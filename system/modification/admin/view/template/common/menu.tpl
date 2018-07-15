@@ -4,6 +4,7 @@
     <ul>
       <li><a href="<?php echo $category; ?>"><?php echo $text_category; ?></a></li>
       <li><a href="<?php echo $product; ?>"><?php echo $text_product; ?></a></li>
+      <li><a href="<?= $pc_autopart_brands ?>"><?= $text_menu_pc_autopart_brands ?></a></li>
       <li><a href="<?php echo $recurring; ?>"><?php echo $text_recurring; ?></a></li>
       <li><a href="<?php echo $filter; ?>"><?php echo $text_filter; ?></a></li>
       <li><a class="parent"><?php echo $text_attribute; ?></a>

@@ -52,3 +52,16 @@ CREATE INDEX IDX_CROSS_GENERATION ON TDM_PRICES (PC_MODEL, AKEY, BKEY);
 
 UPDATE TDM_LANGS SET VALUE = 'Цена магазин (грн.)' WHERE CODE = 'PRICE_OPTION_SET' AND LANG = 'ru';
 UPDATE TDM_LANGS SET VALUE = 'грн.' WHERE CODE = 'Pcs' AND LANG = 'ru';
+
+-- Install PC Autopart Brands Module
+DROP TABLE IF EXISTS oc_pc_autopart_brands;
+CREATE TABLE oc_pc_autopart_brands
+(
+  id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  brand VARCHAR(255) NOT NULL,
+  website VARCHAR(255),
+  logo VARCHAR(255),
+  description LONGTEXT,
+  PRIMARY KEY (id),
+  CONSTRAINT unq_oc_pc_autopart_brands_brand UNIQUE (brand)
+);

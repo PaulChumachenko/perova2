@@ -25,13 +25,12 @@
         <?php endif; ?>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-pencil"></i> <?= $text_edit ?></h3>
+                <h3 class="panel-title"><i class="fa fa-pencil"></i> <?= $heading_title ?></h3>
             </div>
             <div class="panel-body">
                 <form action="<?= $action ?>" method="post" enctype="multipart/form-data" id="form-pc_autopart_brands" class="form-horizontal">
                     <div class="form-group">
                         <label class="col-sm-2 control-label" for="input-status"><?= $entry_status ?></label>
-
                         <div class="col-sm-10">
                             <select name="pc_autopart_brands_status" id="input-status" class="form-control">
                                 <?php if ($pc_autopart_brands_status) : ?>

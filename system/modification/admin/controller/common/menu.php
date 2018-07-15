@@ -2,6 +2,7 @@
 class ControllerCommonMenu extends Controller {
 	public function index() {
 		$this->load->language('common/menu');
+		$this->load->language('module/pc_autopart_brands');
 
         if(isset($this->session->data['token']) && $this->user->isLogged()){
 			$this->language->load('module/csvprice_pro');
@@ -148,6 +149,7 @@ class ControllerCommonMenu extends Controller {
 		$data['text_openbay_links'] = $this->language->get('text_openbay_links');
 		$data['text_openbay_report_price'] = $this->language->get('text_openbay_report_price');
 		$data['text_openbay_order_import'] = $this->language->get('text_openbay_order_import');
+		$data['text_menu_pc_autopart_brands'] = $this->language->get('text_menu_pc_autopart_brands');
 
 		$data['home'] = $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL');
 		$data['affiliate'] = $this->url->link('marketing/affiliate', 'token=' . $this->session->data['token'], 'SSL');
@@ -223,6 +225,7 @@ class ControllerCommonMenu extends Controller {
 		$data['zone'] = $this->url->link('localisation/zone', 'token=' . $this->session->data['token'], 'SSL');
 		$data['recurring'] = $this->url->link('catalog/recurring', 'token=' . $this->session->data['token'], 'SSL');
 		$data['order_recurring'] = $this->url->link('sale/recurring', 'token=' . $this->session->data['token'], 'SSL');
+		$data['pc_autopart_brands'] = $this->url->link('module/pc_autopart_brands/items', 'token=' . $this->session->data['token'], 'SSL');
 
 		$data['openbay_show_menu'] = $this->config->get('openbaypro_menu');
 		$data['openbay_link_extension'] = $this->url->link('extension/openbay', 'token=' . $this->session->data['token'], 'SSL');
