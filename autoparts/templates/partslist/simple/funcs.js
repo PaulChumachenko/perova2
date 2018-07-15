@@ -44,10 +44,19 @@ function ViewSwitch(VIEW){
 	$("#viewform").submit();
 }
 
-function ShowMoreProps(But,TDItem){
-	var curHeight = $('#'+TDItem).height();
-	autoHeight = $('#'+TDItem).css('height','auto').height();
+function ShowMoreProps(But, TDItem){
+    TDItem = TDItem.replace(/\s/g, '\\ ');
+	var curHeight = $('#'+TDItem).height(),
+	    autoHeight = $('#'+TDItem).css('height','auto').height();
+
 	$('#'+TDItem).height(curHeight);
 	$('#'+TDItem).stop().animate({'height':autoHeight}, 500);
 	$(But).hide('normal');
 }
+
+$(document).ready(function(){
+    $('tr[data-href]').on('click', function(e) {
+        if ($(e.target).is('[data-pc-ignore-tr-click]')) return;
+        document.location = $(this).data('href');
+    });
+});

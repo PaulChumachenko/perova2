@@ -24,12 +24,6 @@
 		))?>
 	<?php endif; ?>
 
-	<?php if($arResult['GROUP_NAME']!=''): ?>
-		<div class="pricetype">
-			<?=Lng('Your_prices_level')?>: <b><?=$arResult['GROUP_NAME']?></b>
-		</div>
-	<?php endif; ?>
-
 	<div class="tclear"></div>
 
 	<? // VIEWS

@@ -76,10 +76,39 @@
 .tditem:hover{}
 .tditem hr{padding:0px!important; margin:6px 0px 6px 0px!important; color:#ffffff!important; height:1px!important; background:#ffffff!important; border-bottom:1px solid #c3c3c3!important; border-top:0px!important; border-left:0px!important; border-right:0px!important;}
 .tditem .logobox{height:50px; background-size:contain; background-repeat:no-repeat; background-position:50% 0%; background-color:#fff;}
-.tditem .photobox{height:100px; background-size:contain; background-repeat:no-repeat; background-position:50% 50%; background-color:#fff;}
 .tditem .gosrch{padding:30px 10px 0px 10px;}
-.tditem .image{width:135px; height:163px; text-align:center; font-size:11px; color:#878787; margin:0px 15px 20px 0px; padding:5px; border:1px dotted #BABABA;  background-color:#fff; float:left; }
-.tditem .image:hover{border:1px solid #3A97C9; color:#CC2121; cursor:pointer;}
+
+.tditem .photobox {
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-color: #fff;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+.tditem .image {
+    /*width: 135px;*/
+    /*height: 163px;*/
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    font-size: 11px;
+    color: #878787;
+    /*margin: 0px 15px 20px 0px;*/
+    padding: 5px;
+    border: 1px dotted #BABABA;
+    background-color: #fff;
+    float: left;
+}
+
+.tditem .image:hover {
+    border: 1px solid #3A97C9;
+    color: #CC2121;
+    cursor: pointer;
+}
 .tditem .addphoto{position:absolute; top:179px; left:11px; background:#74A4E3; color:#fff; text-shadow:1px 1px 1px #000; padding:3px 6px 5px 4px; cursor:default; border-top-right-radius:6px;}
 .tditem .cbx_imgs{cursor:pointer;}
 .tditem .tdbrand{color:#124D87; font-weight:bold; font-size:13px; font-family:Verdana; width:120px;}
@@ -130,7 +159,7 @@
   background-image: linear-gradient(#337ab7, #337ab7);
 }
 .tdlist .cols td{vertical-align:top; padding:10px 8px 10px 8px; border-bottom:1px solid #D1D1D1;}
-.tdlist .cols:hover{background:#fff;}
+.tdlist .cols:hover{background:#fff; cursor: pointer !important;}
 .tdlist .tdbrand a{color:#337ab7; font-weight:bold; font-size:12px; font-family:Verdana; line-height:18px;}
 .tdlist .tdbrand a:hover{color:#0a477b;}
 .tdlist .lookup_analogues{
@@ -153,9 +182,9 @@
   height: 120px;
   padding-left: 18px;
   font-size: 12px;
-  padding-top: 0px;
-  margin-top: 25px;
-}}
+  padding-top: 0;
+    margin: 70px 25px;
+}
 .tdlist .listphoto{background:url('images/fotopic.png') no-repeat; width:27px; height:16px;}
 .tdlist .prevphoto{width:100px; height:80px; margin:-5px -5px -5px -5px;   border: 1px dotted #c1c1c1; background-size:contain; background-repeat:no-repeat; background-position:50% 50%; background-color:#fff;}
 .tdlist .prevphoto:hover{  border: 1px dotted #3A97C9;
@@ -174,14 +203,14 @@
 .tdlist .optionstab td{padding:0px!important; height:37px!important; border:0px;}
 .tdlist .criteria{color:#5b5b5b; font-size:11px;}
 .tdlist .topbord{border-top:1px solid #D1D1D1!important;}
-.tdlist .itemprops{height:44px; overflow:hidden; cursor:default; margin:0px 0px 3px 0px; line-height:14px!important;}
+.tdlist .itemprops{height:44px; overflow:hidden; margin:0px 0px 3px 0px; line-height:14px!important;}
 .tdlist .moreprops{font-size:11px;}
 .tdlist .moreprops:hover{color:#B85C00;}
 .tdlist .criteria{font-size:11px;}
 
 .listprice td{border:0px solid #D1D1D1; text-align:left!important; position:relative;}
 .listprice .thead td{padding:0px 0px 0px 5px!important; border-bottom:0px!important;}
-.listprice .trow td{padding:0px 0px 0px 5px!important; cursor:default; line-height:36px; border-bottom:0px!important;}
+.listprice .trow td{padding:0px 0px 0px 5px!important; line-height:36px; border-bottom:0px!important;}
 
 /* LIST price width */
 .listprice{width: 350px;}
@@ -196,3 +225,30 @@
 .green{ background-color:#ADFFAB;}
 .listprice .trow .cost{color:#000; font-weight:bold; width: 105px;}
 .listprice .trow .tocart{padding-top:7px!important;}
+
+.tdlist .tdbrand .pc-search-title {
+    color: #337ab7;
+    font-weight: bold;
+    font-size: 15px;
+    font-family: Verdana;
+    line-height: 22px;
+}
+
+.pc-service-info {
+    display: none;
+}
+
+.tdlist .pc-icon {
+    float: left;
+    display: block;
+    margin: 0 6px 0 0;
+}
+
+.tdlist .pc-icon-left {
+    margin-right: 20px;
+}
+
+.tdlist .pc-icon .glyphicon {
+    font-size: 22px;
+    color: #337ab7;
+}
