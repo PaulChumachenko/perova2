@@ -65,7 +65,7 @@
 
 
 				<div class="criteria">
-<b style=font-size:22px;><?= !empty($arPart['PC_MANUFACTURER']) ? $arPart['PC_MANUFACTURER'] : $arPart['BRAND'] ?></b>
+<b data-pc-manufacturer="<?= !empty($arPart['PC_MANUFACTURER']) ? $arPart['PC_MANUFACTURER'] : $arPart['BRAND'] ?>" style=font-size:22px;><?= !empty($arPart['PC_MANUFACTURER']) ? $arPart['PC_MANUFACTURER'] : $arPart['BRAND'] ?></b>
 
 					<p style="font-size:18px; display: inline; margin-left: 15px; color: #827d7d;"><?= $arPart['PC_SKU'] ?></p>
 

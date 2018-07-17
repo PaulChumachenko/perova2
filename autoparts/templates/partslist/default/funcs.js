@@ -44,10 +44,44 @@ function ViewSwitch(VIEW){
 	$("#viewform").submit();
 }
 
-function ShowMoreProps(But,TDItem){
-	var curHeight = $('#'+TDItem).height();
-	autoHeight = $('#'+TDItem).css('height','auto').height();
-	$('#'+TDItem).height(curHeight);
-	$('#'+TDItem).stop().animate({'height':autoHeight}, 500);
-	$(But).hide('normal');
+function ShowMoreProps(But, TDItem){
+    TDItem = TDItem.replace(/\s/g, '\\ ');
+    TDItem = TDItem.replace(/\./g, '\\.');
+    var curHeight = $('#'+TDItem).height(),
+        autoHeight = $('#'+TDItem).css('height','auto').height();
+
+    $('#'+TDItem).height(curHeight);
+    $('#'+TDItem).stop().animate({'height':autoHeight}, 500);
+    $(But).hide('normal');
 }
+
+function pcAddBrandPopups() {
+    var manufacturers = $('[data-pc-manufacturer]').map(function(){
+        return $.trim($(this).text());
+    }).get();
+    manufacturers = $.unique(manufacturers);
+
+    $.get('/index.php?route=module/pc_autopart_brands&' + $.param({brands: manufacturers})).then(function (response) {
+        if (!response) return false;
+
+        for (var brand in response) {
+            if (!response.hasOwnProperty(brand)) continue;
+
+            $('[data-pc-manufacturer="' + brand + '"]').each(function(){
+                $(this).popover({
+                    placement: 'right',
+                    container: 'body',
+                    html: true,
+                    title: $.trim($(this).text()),
+                    content: response[brand]
+                });
+
+                $(this).css({cursor: 'help'});
+            });
+        }
+    });
+}
+
+$(document).ready(function(){
+    pcAddBrandPopups();
+});

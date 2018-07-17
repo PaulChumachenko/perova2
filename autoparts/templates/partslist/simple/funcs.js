@@ -46,6 +46,7 @@ function ViewSwitch(VIEW){
 
 function ShowMoreProps(But, TDItem){
     TDItem = TDItem.replace(/\s/g, '\\ ');
+    TDItem = TDItem.replace(/\./g, '\\.');
 	var curHeight = $('#'+TDItem).height(),
 	    autoHeight = $('#'+TDItem).css('height','auto').height();
 

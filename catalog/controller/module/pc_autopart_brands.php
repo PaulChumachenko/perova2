@@ -14,7 +14,7 @@ class ControllerModulePcAutopartBrands extends Controller
 			if ($models) {
 				foreach($models as &$model){
 					if ($model['logo'] && is_file(DIR_IMAGE . $model['logo'])) {
-						$model['thumb'] = $this->model_tool_image->resize($model['logo'], 100, 100);
+						$model['thumb'] = $this->model_tool_image->resize($model['logo'], 150, 150);
 					}
 
 					$html = file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/module/pc_autopart_brands.tpl')
