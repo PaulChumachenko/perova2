@@ -58,7 +58,7 @@ class ModelModulePcAutopartBrands extends Model
 		$this->db->query("
 			INSERT INTO " . DB_PREFIX . "pc_autopart_brands SET
 				`brand` = '" . $post['brand'] . "'
-				, `website` = '" . $post['website'] . "'
+				, `website` = '" .  $this->db->escape($post['website']) . "'
 				, `logo` = '" . $this->db->escape($post['logo']) . "'
 				, `description` = '" . $post['description'] . "'");
 
@@ -99,7 +99,7 @@ class ModelModulePcAutopartBrands extends Model
 		$this->db->query("
 			UPDATE " . DB_PREFIX . "pc_autopart_brands SET
 				brand = '" . $post['brand'] . "'
-				, website = '" . $post['website'] . "'
+				, website = '" .  $this->db->escape($post['website']) . "'
 				, logo = '" . $this->db->escape($post['logo']) . "'
 				, description = '" . $post['description'] . "'
 			WHERE id = {$brand_id}");
@@ -117,5 +117,30 @@ class ModelModulePcAutopartBrands extends Model
 		$this->db->query("DELETE FROM " . DB_PREFIX . "pc_autopart_brands WHERE id IN (" . implode(', ', $brand_ids) . ")");
 		$this->cache->delete('pc_autopart_brands');
 		$this->event->trigger('post.admin.pc_autopart_brands.delete', $brand_ids);
+	}
+
+	/**
+	 * @param array $data
+	 * @return bool
+	 */
+	public function importBrand($data)
+	{
+		if (empty($data['brand'])) return false;
+
+		if ($this->isBrandExists($data['brand'])) {
+			$this->db->query("
+				UPDATE " . DB_PREFIX . "pc_autopart_brands SET
+					website = '" . (empty($data['website']) ? '' : $this->db->escape($data['website'])) . "',
+					description = '" . (empty($data['description']) ? '' : $this->db->escape($data['description'])) . "'
+				WHERE brand = '{$data['brand']}'");
+		} else {
+			$this->db->query("
+				INSERT INTO " . DB_PREFIX . "pc_autopart_brands SET
+					brand = '" . $data['brand'] . "',
+					website = '" .  (empty($data['website']) ? '' : $this->db->escape($data['website'])) . "',
+					description = '" . (empty($data['description']) ? '' : $this->db->escape($data['description'])) . "'");
+		}
+
+		return true;
 	}
 }

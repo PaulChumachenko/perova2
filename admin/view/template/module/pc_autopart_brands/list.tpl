@@ -5,6 +5,7 @@
     <div class="page-header">
         <div class="container-fluid">
             <div class="pull-right">
+                <button data-btn-import type="button" data-toggle="tooltip" title="<?php echo $text_btn_import; ?>" id="btn-upload" class="btn btn-default"><i class="fa fa-upload"></i></button>
                 <a href="<?= $action_add ?>" data-toggle="tooltip" title="<?= $text_btn_add ?>" class="btn btn-primary"><i class="fa fa-plus"></i></a>
                 <button type="button" data-toggle="tooltip" title="<?= $text_btn_delete; ?>" class="btn btn-danger" onclick="confirm('<?= $text_confirm ?>') ? $('#form-brands').submit() : false;"><i class="fa fa-trash-o"></i></button>
             </div>
@@ -88,3 +89,47 @@
 </div>
 
 <?= $footer ?>
+
+<script>
+    $(document).ready(function(){
+        $('[data-btn-import]').click(function() {
+            $('[data-import-form]').remove();
+            $('body').prepend('<form enctype="multipart/form-data" data-import-form style="display: none;"><input type="file" name="file" value="" /></form>');
+            $('[data-import-form] input[name=\'file\']').trigger('click');
+
+            if (typeof timer != 'undefined') clearInterval(timer);
+
+            var timer = setInterval(function() {
+                if (!$('[data-import-form] input[name=\'file\']').val()) return;
+
+                clearInterval(timer);
+
+                $.ajax({
+                    url: 'index.php?route=module/pc_autopart_brands/import&token=<?php echo $token; ?>',
+                    type: 'post',
+                    dataType: 'json',
+                    data: new FormData($('[data-import-form]')[0]),
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function() {
+                        $('[data-btn-import] i').replaceWith('<i class="fa fa-circle-o-notch fa-spin"></i>');
+                        $('[data-btn-import]').prop('disabled', true);
+                    },
+                    complete: function() {
+                        $('[data-btn-import] i').replaceWith('<i class="fa fa-upload"></i>');
+                        $('[data-btn-import]').prop('disabled', false);
+                    },
+                    success: function(response) {
+                        var msg = response.error ? response.error : 'Записи Производителей успешно добавлены/обновлены';
+                        if (!alert(msg)) window.location.reload();
+                    },
+                    error: function(xhr, status, error) {
+                        alert(error + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    }
+                });
+
+            }, 500);
+        });
+    });
+</script>

@@ -106,6 +106,59 @@ class ControllerModulePcAutopartBrands extends Controller
 		$this->getList();
 	}
 
+	public function import()
+	{
+		set_time_limit(3600);
+		ini_set('memory_limit', '512M');
+
+		$this->load->language('module/pc_autopart_brands');
+		$this->load->model('module/pc_autopart_brands');
+
+		$error = null;
+		$allowedMimes = ['application/vnd.ms-excel','text/plain','text/csv','text/tsv'];
+
+		if (!in_array($this->request->files['file']['type'], $allowedMimes)){
+			$error = $this->language->get('error_import_mime_type');
+		} elseif(empty($this->request->files['file']['name'])){
+			$error = $this->language->get('error_import_empty_filename');
+		} elseif(!is_file($this->request->files['file']['tmp_name'])){
+			$error = $this->language->get('error_import_is_not_file');
+		} elseif(!($handle = fopen($this->request->files['file']['tmp_name'], 'r'))){
+			$error = $this->language->get('error_import_cannot_open');
+		}
+
+
+		if (!$error) {
+			foreach ($this->rowGenerator($handle, ['brand', 'website', 'description'], ';') as $row){
+				$this->model_module_pc_autopart_brands->importBrand($row);
+			}
+		}
+
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode(['error' => $error]));
+	}
+
+	/**
+	 * @param $handle
+	 * @param $fieldsMap
+	 * @param $delimiter
+	 * @return Generator
+	 */
+	protected function rowGenerator($handle, $fieldsMap, $delimiter)
+	{
+		while (($row = fgetcsv($handle, 0, $delimiter)) !== false) {
+			if (empty($fieldsMap)) {
+				yield $row;
+			} else {
+				$assocRow = [];
+				foreach ($fieldsMap as $number => $field) {
+					if (isset($row[$number])) $assocRow[$field] = $row[$number];
+				}
+				yield $assocRow;
+			}
+		}
+	}
+
 	protected function getList() 
 	{
 		$sort = 'brand';
@@ -164,6 +217,7 @@ class ControllerModulePcAutopartBrands extends Controller
 		$data['sort'] = $sort;
 		$data['order'] = $order;
 		$data['breadcrumbs'] = $this->getListItemsBreadcrumbs();
+		$data['token'] = $this->session->data['token'];
 		$this->loadLanguageParams($data);
 		$this->loadDefaultBlocks($data);
 
@@ -313,6 +367,7 @@ class ControllerModulePcAutopartBrands extends Controller
 		$data['text_btn_add'] = $this->language->get('text_btn_add');
 		$data['text_btn_edit'] = $this->language->get('text_btn_edit');
 		$data['text_btn_delete'] = $this->language->get('text_btn_delete');
+		$data['text_btn_import'] = $this->language->get('text_btn_import');
 		$data['text_confirm'] = $this->language->get('text_confirm');
 		$data['text_column_brand'] = $this->language->get('text_column_brand');
 		$data['text_column_website'] = $this->language->get('text_column_website');
