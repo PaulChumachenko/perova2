@@ -33,6 +33,7 @@ class PcPartsListProcessor
 				$newPart = $part;
 				$newPart['PC_SKU'] = !empty($price['PC_SKU']) ? $price['PC_SKU'] : '';
 				$newPart['PC_MANUFACTURER'] = !empty($price['PC_MANUFACTURER']) ? $price['PC_MANUFACTURER'] : '';
+				$newPart['PC_OC_CROSS_ID'] = !empty($price['PC_OC_CROSS_ID']) ? $price['PC_OC_CROSS_ID'] : '';
 
 				$pk = $this->getNewPk($newPart);
 				$newPart['PKEY'] = $pk;

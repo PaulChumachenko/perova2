@@ -67,8 +67,13 @@
 				<div class="criteria">
 <b data-pc-manufacturer="<?= !empty($arPart['PC_MANUFACTURER']) ? $arPart['PC_MANUFACTURER'] : $arPart['BRAND'] ?>" style=font-size:22px;><?= !empty($arPart['PC_MANUFACTURER']) ? $arPart['PC_MANUFACTURER'] : $arPart['BRAND'] ?></b>
 
-					<p style="font-size:18px; display: inline; margin-left: 15px; color: #827d7d;"><?= $arPart['PC_SKU'] ?></p>
-
+					<?php if ($arPart['PC_OC_CROSS_ID']) : ?>
+						<p style="font-size:18px; display: inline; margin-left: 15px; color: #827d7d;">
+							<a style="color: #827d7d; font-weight: 100;" href="/index.php?route=product/product&product_id=<?= $arPart['PC_OC_CROSS_ID'] ?>"><?= $arPart['PC_SKU'] ?></a>
+						</p>
+					<?php else : ?>
+						<p style="font-size:18px; display: inline; margin-left: 15px; color: #827d7d;"><?= $arPart['PC_SKU'] ?></p>
+					<?php endif; ?>
 
 				</div>
 

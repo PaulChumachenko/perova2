@@ -7,11 +7,12 @@ if ($_SESSION["TDM_ISADMIN"] == "Y") {
 	define("TDM_ADMIN_PANEL", "Y");
 	echo("\t<link rel=\"stylesheet\" href=\"/");
 	echo(TDM_ROOT_DIR);
-	echo("/styles.css\" type=\"text/css\">\n\t<script src=\"/");
-	//echo(TDM_ROOT_DIR);
-	//echo("/media/js/jquery-1.11.0.min.js\"></script>\n\t<script src=\"/");
-	//echo(TDM_ROOT_DIR);
-	//echo("/media/js/jquery-migrate-1.2.1.min.js\"></script>\n\t<script src=\"/");
+	echo("/styles.css\" type=\"text/css\">\n\t");
+	if (defined("TDM_ADMIN_SIDE")) {
+		echo '<script src="/' . TDM_ROOT_DIR . '/media/js/jquery-1.11.0.min.js"></script>' . PHP_EOL;
+		echo '<script src="/' . TDM_ROOT_DIR . '/media/js/jquery-migrate-1.2.1.min.js"></script>' . PHP_EOL;
+	}
+	echo("<script src=\"/");
 	echo(TDM_ROOT_DIR);
 	echo("/media/js/tdmfuncs.js\"></script>\n\t<link rel=\"stylesheet\" href=\"/");
 	echo(TDM_ROOT_DIR);

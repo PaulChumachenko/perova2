@@ -267,6 +267,7 @@ class PcMailImporter
 				$arFields["PC_MODEL"] = trim($arCSVrow[7]);
 				$arFields["PC_SKU"] = trim($arCSVrow[8]);
 				$arFields["PC_MANUFACTURER"] = trim($arCSVrow[9]);
+				$arFields["PC_OC_CROSS_ID"] = (int)trim($arCSVrow[11]);
 
 				if ($arFields["BKEY"] != "" && $arFields["AKEY"] != "" && 0 < $arFields["PRICE"]) {
 					$arUKeys = array();

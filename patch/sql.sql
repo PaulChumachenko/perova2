@@ -65,3 +65,6 @@ CREATE TABLE oc_pc_autopart_brands
   PRIMARY KEY (id),
   CONSTRAINT unq_oc_pc_autopart_brands_brand UNIQUE (brand)
 );
+
+ALTER TABLE `TDM_PRICES` ADD COLUMN `PC_OC_CROSS_ID` INT(11);
+ALTER TABLE `TDM_PRICES` ADD UNIQUE `UNQ_PC_OC_CROSS_ID` (`PC_OC_CROSS_ID`);

@@ -6,3 +6,4 @@ image/cache
 config.php
 admin/config.php
 autoparts/config.php
+autoparts/admin/import/downloads
