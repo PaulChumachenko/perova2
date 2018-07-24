@@ -10,7 +10,7 @@
                 <?php if ($model['website']) : ?>
                     <div class="pc-external-link">
                         <i class="fa fa-external-link"></i>
-                        <a href="<?= $model['website'] ?>">Официальный сайт</a>
+                        <a href="<?= $model['website'] ?>" target="_blank">Официальный сайт</a>
                     </div>
                 <?php endif; ?>
                 <?php if ($model['description']) : ?>

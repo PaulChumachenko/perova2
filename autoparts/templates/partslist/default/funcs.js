@@ -73,7 +73,13 @@ function pcAddBrandPopups() {
                     container: 'body',
                     html: true,
                     title: $.trim($(this).text()),
-                    content: response[brand]
+                    content: response[brand],
+                    template: '<div class="popover" role="tooltip"><div class="arrow"></div><div class="popover-header"><button type="button" class="close">&times;</button><h3 class="popover-title"></h3></div><div class="popover-content"></div></div>'
+                }).on('shown.bs.popover', function (eventShown) {
+                    var $popup = $('#' + $(eventShown.target).attr('aria-describedby'));
+                    $popup.find('button.close').click(function (e) {
+                        $popup.popover('hide');
+                    });
                 });
 
                 $(this).css({cursor: 'help'});
@@ -84,4 +90,8 @@ function pcAddBrandPopups() {
 
 $(document).ready(function(){
     pcAddBrandPopups();
+
+    $('body').on('hidden.bs.popover', function (e) {
+        $(e.target).data("bs.popover").inState = { click: false, hover: false, focus: false }
+    });
 });
