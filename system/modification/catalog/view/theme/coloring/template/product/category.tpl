@@ -151,7 +151,7 @@
                                         <?php endif; ?>
 
                                         <div>Код: <a href="<?= $product['href'] ?>"><?= $product['pc_tecdoc']['code'] ?></a></div>
-                                        <div>Производитель: <?= $product['pc_tecdoc']['manufacturer'] ?></div>
+                                        <div>Производитель: <span data-pc-manufacturer="<?= $product['pc_tecdoc']['manufacturer'] ?>"><?= $product['pc_tecdoc']['manufacturer'] ?></span></div>
                                         <div>Наличие: <?= $product['pc_tecdoc']['available'] >= 4 ? '> 4' : $product['pc_tecdoc']['available'] ?></div>
                                         <div>В пути: <?= $product['pc_tecdoc']['en_route'] ?></div>
                                         <div>Цена:  <?= $product['pc_tecdoc']['price'] ?></div>
@@ -240,13 +240,10 @@
         text-decoration: none;
     }
     .pc_category_main_img{
-        width:135px;
-        /*height:180px;*/
+        width: 200px;
         text-align:center;
         font-size:8px; color:#878787;
         margin:0 15px 20px 0;
-        /*padding:5px;*/
-        /*border:1px solid #BABABA;*/
         background-color:#fff;
         float:left;
     }
@@ -258,7 +255,6 @@
     .prevphoto{
         width: auto;
         height: 200px;
-        /*margin: 30px 35px 17px 13%;*/
         border: 1px solid #c1c1c1;
         background-size: contain;
         background-repeat: no-repeat;
@@ -269,6 +265,43 @@
         border:1px solid #3A97C9;
         color:#CC2121;
         cursor:move;
+    }
+    div.popover .popover-header {
+        padding:8px 14px;
+        background-color:#f7f7f7;
+        border-bottom:1px solid #ebebeb;
+        -webkit-border-radius:5px 5px 0 0;
+        -moz-border-radius:5px 5px 0 0;
+        border-radius:5px 5px 0 0;
+    }
+    div.popover .popover-title {
+        margin:0;
+        padding:0;
+        background-color:transparent;
+        border:none;
+    }
+    h3.popover-title {
+        font-weight: bold;
+    }
+    div.popover {
+        max-width: 450px !important;
+    }
+    .brand-container .pc-external-link {
+        color: #0059b2;
+        text-decoration: none;
+        margin-bottom: 10px;
+    }
+    .brand-container .pc-external-link a {
+        color: #0059b2;
+    }
+    .brand-container .pc-external-link a:hover {
+        text-decoration: underline;
+    }
+    .brand-container .pc-description {
+        margin-bottom: 10px;
+    }
+    .brand-container .pc-description {
+        text-align: justify;
     }
 </style>
 

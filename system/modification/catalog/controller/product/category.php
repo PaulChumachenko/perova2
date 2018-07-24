@@ -1,6 +1,6 @@
 <?php
 
-require_once('/autoparts/tdmcore/PcOpenCartCategoryListProcessor.php');
+require_once(DIR_AUTOPARTS . 'tdmcore/PcOpenCartCategoryListProcessor.php');
 
 class ControllerProductCategory extends Controller
 {

@@ -45,6 +45,7 @@
 <script src="catalog/view/theme/coloring/assets/jquery.dotdotdot.min.js" type="text/javascript"></script>
 <script src="catalog/view/theme/coloring/assets/common.js" type="text/javascript"></script>
 <script src="autoparts/media/js/colorbox/colorbox.js" type="text/javascript"></script>
+<script src="autoparts/media/js/pc_scripts/brand-popup.js" type="text/javascript"></script>
 <?php foreach ($scripts as $script) { ?>
 <script src="<?php echo $script; ?>" type="text/javascript"></script>
 <?php } ?>
