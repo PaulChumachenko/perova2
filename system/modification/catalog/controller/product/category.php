@@ -1,5 +1,7 @@
 <?php
 
+require_once('/autoparts/tdmcore/PcOpenCartCategoryListProcessor.php');
+
 class ControllerProductCategory extends Controller
 {
 	public function index()
@@ -147,6 +149,10 @@ class ControllerProductCategory extends Controller
 					'href'         => $this->url->link('product/product', 'path=' . $this->request->get['path'] . '&product_id=' . $result['product_id'])
 				];
 			}
+
+			$clp = new PcOpenCartCategoryListProcessor(array_column($data['products'], 'product_id'));
+			$tdParts = $clp->getParts();
+			array_walk($data['products'], function(&$product) use ($tdParts) { $product['pc_tecdoc'] = $tdParts[$product['product_id']]; });
 
 			$data['sorts'] = $this->getSortList();
 			$data['limits'] = $this->getLimitList();

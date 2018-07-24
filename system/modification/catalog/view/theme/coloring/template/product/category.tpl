@@ -140,21 +140,23 @@
                             <div class="product-thumb thumbnail ">
                                 <div>
                                     <div class="caption">
-                                        <div><a href="<?= $product['href'] ?>"><?= $product['name'] ?></a></div>
-                                        <div>Артикул: <?= $product['sku'] ?></div>
-                                        <div>Модель: <?= $product['model'] ?></div>
-                                        <div>Производитель: <?= $product['manufacturer'] ?></div>
-                                        <div>Марка: <?= $product['jan'] ?></div>
-                                        <div>Цена:
-                                            <?php if (!$product['special']) : ?>
-                                                <?= $product['price'] ?>
-                                            <?php else : ?>
-                                                <span class="price-old">&nbsp;<?= $product['price'] ?>&nbsp;</span>
-                                                <span class="price-new"><?= $product['special'] ?></span>
-                                            <?php endif; ?>
-                                        </div>
+                                        <?php if ($product['pc_tecdoc']['images']) : ?>
+                                            <a href="<?= reset($product['pc_tecdoc']['images']) ?>" class="cbx_imgs pc_category_main_img">
+                                                <div class="prevphoto" style="background-image:url('<?= reset($product['pc_tecdoc']['images']) ?>');"></div>
+                                            </a>
+                                            <?php foreach($product['pc_tecdoc']['images'] as $src): ?>
+                                                <?php if ($src == reset($product['pc_tecdoc']['images'])) continue; ?>
+                                                <a href="<?= $src ?>" class="cbx_imgs"></a>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+
+                                        <div>Код: <a href="<?= $product['href'] ?>"><?= $product['pc_tecdoc']['code'] ?></a></div>
+                                        <div>Производитель: <?= $product['pc_tecdoc']['manufacturer'] ?></div>
+                                        <div>Наличие: <?= $product['pc_tecdoc']['available'] >= 4 ? '> 4' : $product['pc_tecdoc']['available'] ?></div>
+                                        <div>В пути: <?= $product['pc_tecdoc']['en_route'] ?></div>
+                                        <div>Цена:  <?= $product['pc_tecdoc']['price'] ?></div>
                                         <div class="btn-group">
-                                            <?php if ($product['quantity'] <= 0 || $disable_cart_button) : ?>
+                                            <?php if ($product['pc_tecdoc']['available'] <= 0 || $disable_cart_button) : ?>
                                                 <button class="btn btn-addtocart" type="button" disabled>
                                                     <span><?= $disable_cart_button_text ?></span>
                                                 </button>
@@ -167,7 +169,7 @@
                                                 <?php endif; ?>
                                             <?php endif; ?>
                                             <button class="btn btn-addtocart" type="button">
-                                                <a href="/autoparts/search/<?= $product['ean'] ?>/<?= $product['mpn'] ?>">Аналоги</a>
+                                                <a href="<?= $product['pc_tecdoc']['analogs_href'] ?>">Аналоги</a>
                                             </button>
                                         </div>
                                         <?php if ($product['rating']) : ?>
@@ -222,7 +224,10 @@
 	function adddotdotdot($element) {
 		$(".subcategory .name-wrapper").dotdotdot();
 	}
-	$(document).ready(adddotdotdot);
+	$(document).ready(function(){
+        $(".subcategory .name-wrapper").dotdotdot();
+        $(".cbx_imgs").colorbox({ current:'', innerWidth:900, innerHeight:600, onComplete:function(){$('.cboxPhoto').unbind().click($.colorbox.next);} });
+    });
 	$(window).resize(adddotdotdot);
 </script>
 
@@ -233,6 +238,37 @@
     .product-layout:hover .btn-addtocart:hover a, .product-layout:hover .btn-addtocart:active a, .product-layout:hover .btn-addtocart.active a{
         color: #fff;
         text-decoration: none;
+    }
+    .pc_category_main_img{
+        width:135px;
+        /*height:180px;*/
+        text-align:center;
+        font-size:8px; color:#878787;
+        margin:0 15px 20px 0;
+        /*padding:5px;*/
+        /*border:1px solid #BABABA;*/
+        background-color:#fff;
+        float:left;
+    }
+    .pc_category_main_img:hover{
+        border:1px solid #3A97C9;
+        color:#CC2121;
+        cursor:move;
+    }
+    .prevphoto{
+        width: auto;
+        height: 200px;
+        /*margin: 30px 35px 17px 13%;*/
+        border: 1px solid #c1c1c1;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        background-color: #fff;
+    }
+    .prevphoto:hover{
+        border:1px solid #3A97C9;
+        color:#CC2121;
+        cursor:move;
     }
 </style>
 
