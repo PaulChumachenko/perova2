@@ -148,6 +148,8 @@
                                                 <?php if ($src == reset($product['pc_tecdoc']['images'])) continue; ?>
                                                 <a href="<?= $src ?>" class="cbx_imgs"></a>
                                             <?php endforeach; ?>
+                                        <?php else : ?>
+                                            <div class="pc_category_main_img"><div class="pc_noimage"></div></div>
                                         <?php endif; ?>
 
                                         <div>Код: <a href="<?= $product['href'] ?>"><?= $product['pc_tecdoc']['code'] ?></a></div>
@@ -247,12 +249,7 @@
         background-color:#fff;
         float:left;
     }
-    .pc_category_main_img:hover{
-        border:1px solid #3A97C9;
-        color:#CC2121;
-        cursor:move;
-    }
-    .prevphoto{
+    .prevphoto, .pc_noimage{
         width: auto;
         height: 200px;
         border: 1px solid #c1c1c1;
@@ -265,6 +262,9 @@
         border:1px solid #3A97C9;
         color:#CC2121;
         cursor:move;
+    }
+    .pc_noimage{
+        background-image: url('/image/catalog/pc_part_no_image.png');
     }
     div.popover .popover-header {
         padding:8px 14px;
