@@ -117,17 +117,33 @@
 					<span style="font-size:11px;"><?= TDMPrintArtKinde($arPart['KIND']) ?></span>
 				<?php endif; ?>
 
-<table cellspacing="0" cellpadding="0">
- <tr>
-  <td style="width: 50%">
-							<a href="/<?=TDM_ROOT_DIR?>/props.php?of=<?=$arPart["AID"]?>" class="popup">
-								<button type="button" class="btn btn-primary buy" class="tdcartadd">ОЕ Номера</button>	</a>
-	</td>  <td style="width: 50%;">
-
-							<a href="javascript:void(0)" OnClick="AppWin('<?=TDM_ROOT_DIR?>',<?=$arPart["AID"]?>,980)">
-						<button type="button" class="btn btn-primary buy" class="tdcartadd">Применяемость</button></a>
-</td></tr>
-					</table>
+						<table cellspacing="0" cellpadding="0">
+							<tr>
+								<td style="width: 50%">
+									<a href="/<?= TDM_ROOT_DIR ?>/props.php?of=<?= $arPart["AID"] ?>" class="popup">
+										<button type="button" class="btn btn-primary buy" class="tdcartadd">ОЕ Номера
+										</button>
+									</a>
+								</td>
+								<td style="width: 50%;">
+									<a href="javascript:void(0)"
+									   OnClick="AppWin('<?= TDM_ROOT_DIR ?>',<?= $arPart["AID"] ?>,980)">
+										<button type="button" class="btn btn-primary buy" class="tdcartadd">
+											Применяемость
+										</button>
+									</a>
+								</td>
+							</tr>
+							<?php if(!empty($arResult['BRAND']) && !empty($arResult['MOD_ID'])): ?>
+								<tr>
+									<td style="width: 50%">
+										<a href="<?= '/' . TDM_ROOT_DIR . '/search/' . $arPart['AKEY'] . '/' . BrandNameEncode($arPart['BRAND']) ?>">
+											<button type="button" class="btn btn-primary buy">Аналоги</button>
+										</a>
+									</td>
+								</tr>
+							<?php endif; ?>
+						</table>
 				<?php endif; ?>
 
 
