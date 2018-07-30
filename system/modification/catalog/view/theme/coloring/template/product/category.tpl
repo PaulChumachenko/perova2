@@ -154,9 +154,10 @@
 
                                         <div>Код: <a href="<?= $product['href'] ?>"><?= $product['pc_tecdoc']['code'] ?></a></div>
                                         <div>Производитель: <span data-pc-manufacturer="<?= $product['pc_tecdoc']['manufacturer'] ?>"><?= $product['pc_tecdoc']['manufacturer'] ?></span></div>
-                                        <div>Наличие: <?= $product['pc_tecdoc']['available'] >= 4 ? '> 4' : $product['pc_tecdoc']['available'] ?></div>
-                                        <div>В пути: <?= $product['pc_tecdoc']['en_route'] ?></div>
-                                        <div>Цена:  <?= $product['pc_tecdoc']['price'] ?></div>
+                                        <div>Наличие: <?= $product['pc_tecdoc']['available'] >= 4 ? '> 4' : $product['pc_tecdoc']['available'] ?>  шт.</div>
+                                        <div>В пути: <?= $product['pc_tecdoc']['en_route'] ?> шт.</div>
+                                        <div>Марка:  <?= $product['jan'] ?></div>
+                                        <div>Цена:  <?= $product['pc_tecdoc']['price'] ?> грн.</div>
                                         <div class="btn-group">
                                             <?php if ($product['pc_tecdoc']['available'] <= 0 || $disable_cart_button) : ?>
                                                 <button class="btn btn-addtocart" type="button" disabled>
